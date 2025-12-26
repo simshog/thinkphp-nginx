@@ -1,6 +1,10 @@
 <?php
 use think\facade\Route;
+// 获取当前计数
+Route::get('/api/count', 'index/getCount');
 
+// 更新计数，自增或者清零
+Route::post('/api/count', 'index/updateCount');
 // 用户相关路由
 Route::post('user/login', 'user/login');
 Route::get('user/info', 'user/info');
@@ -26,4 +30,5 @@ Route::get('wifi/connect/:id', 'wifi/connect');
 Route::get('wifi/qrcode/:id', 'wifi/qrcode');
 
 // 小程序扫码连接路由
+
 Route::get('connect/:id', 'wifi/connect');
