@@ -1,0 +1,25 @@
+<?php
+return [
+    'default' => env('database.driver', 'mysql'),
+    'connections' => [
+        'mysql' => [
+            'type' => 'mysql',
+            'hostname' => env('MYSQL_ADDRESS', '127.0.0.1'),
+            'database' => env('MYSQL_DATABASE', 'wifi_connect'),
+            'username' => env('MYSQL_USERNAME', 'root'),
+            'password' => env('MYSQL_PASSWORD', ''),
+            'hostport' => env('MYSQL_PORT', '3306'),
+            'charset' => 'utf8mb4',
+            'prefix' => '',
+            'debug' => true,
+            'deploy' => 0,
+            'rw_separate' => false,
+            'master_num' => 1,
+            'slave_no' => '',
+            'fields_strict' => true,
+            'break_reconnect' => false,
+            'trigger_sql' => true,
+            'fields_cache' => false,
+        ],
+    ],
+];
