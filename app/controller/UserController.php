@@ -255,4 +255,59 @@ class UserController
             'data' => User::getRoleList()
         ]);
     }
+    
+    public function getCurrentUser()
+    {
+        $openid = Request::header('x-wx-openid');
+        
+        if (empty($openid)) {
+            return json(['code' => 1, 'msg' => 'openid不能为空']);
+        }
+        
+        $user = User::where('openid', $openid)->find();
+        
+        if (!$user) {
+            return json(['code' => 1, 'msg' => '用户不存在']);
+        }
+        
+        return json([
+            'code' => 0,
+            'msg' => 'success',
+            'data' => $user
+        ]);
+    }
+    
+    public function getOpenidByCode()
+    {
+        $code = Request::param('code');
+        
+        if (empty($code)) {
+            return json(['code' => 1, 'msg' => 'code不能为空']);
+        }
+        
+        $appId = getenv('WECHAT_APPID');
+        $appSecret = getenv('WECHAT_APPSECRET');
+        
+        if (empty($appId) || empty($appSecret)) {
+            return json(['code' => 1, 'msg' => '微信配置不完整']);
+        }
+        
+        $url = "https://api.weixin.qq.com/sns/jscode2session?appid={$appId}&secret={$appSecret}&js_code={$code}&grant_type=authorization_code";
+        
+        $response = file_get_contents($url);
+        $result = json_decode($response, true);
+        
+        if (isset($result['errcode'])) {
+            return json(['code' => 1, 'msg' => $result['errmsg']]);
+        }
+        
+        return json([
+            'code' => 0,
+            'msg' => 'success',
+            'data' => [
+                'openid' => $result['openid'],
+                'session_key' => $result['session_key'] ?? ''
+            ]
+        ]);
+    }
 }

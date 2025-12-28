@@ -13,4 +13,6 @@ Route::group('api/user', function () {
     Route::get('/children/:parent_id', 'UserController/getChildren');
     Route::get('/shop/:shop_id', 'UserController/getByShop');
     Route::get('/role/list', 'UserController/getRoleList');
+Route::get('/current', 'UserController/getCurrentUser');
+Route::post('/openid/code', 'UserController/getOpenidByCode');
 });
